@@ -25,8 +25,9 @@ Focus on geometric and wave optics, including reflection, refraction, interferen
 Learn about optical instruments and applications.
 Recommended Path:
 
-Mechanics → 2. Waves → 3. Thermodynamics → 4. Fluid Dynamics → 5. Electromagnetism → 6. Optics
-This order builds your understanding from the basics of motion and forces, through energy and waves, to more advanced topics like electromagnetism and optics.
+**Mechanics** → **Energy** → **Waves** → **Thermodynamics** → **Fluid Dynamics** → **Electromagnetism** → **Optics**
+
+This order builds your understanding from the basics of motion and forces, through the unifying concept of energy, to waves and more advanced topics like electromagnetism and optics. The Energy section bridges concepts across all domains of physics.
 
 
 ## Overview
@@ -43,6 +44,14 @@ Classical mechanics including:
 - Rotational motion
 - Simple harmonic motion
 - Oscillations and vibrations
+
+### ⚡ Energy
+**NEW!** Unifying energy concepts across all physics domains:
+- Energy conservation laws and principles
+- Energy forms (mechanical, thermal, electromagnetic, nuclear)
+- Energy transformations and efficiency analysis
+- Real-world applications (renewable energy, storage, transportation)
+- Cross-cutting concepts that appear throughout physics
 
 ### 🌡️ Thermodynamics
 Thermal physics and statistical mechanics:
