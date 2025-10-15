@@ -1,0 +1,42 @@
+# Matplotlib Configuration for Physics Simulations
+# This file configures matplotlib for optimal use with the physics modules
+
+# Backend Configuration
+# TkAgg: Interactive plots with Tkinter (recommended for desktop)
+# Qt5Agg: Interactive plots with Qt5 (alternative GUI backend)  
+# Agg: Non-interactive backend for saving plots only
+backend: TkAgg
+
+# Figure Settings
+figure.figsize: 10, 8
+figure.dpi: 100
+figure.facecolor: white
+
+# Font Settings
+font.size: 12
+axes.titlesize: 14
+axes.labelsize: 12
+legend.fontsize: 10
+
+# Grid and Style
+axes.grid: True
+grid.alpha: 0.3
+lines.linewidth: 2
+axes.linewidth: 1.0
+
+# Color Cycle for Physics Plots
+axes.prop_cycle: cycler('color', ['1f77b4', 'ff7f0e', '2ca02c', 'd62728', '9467bd', '8c564b', 'e377c2', '7f7f7f', 'bcbd22', '17becf'])
+
+# Save Settings
+savefig.dpi: 300
+savefig.bbox: tight
+savefig.facecolor: white
+
+# Interactive Settings
+toolbar: toolbar2
+keymap.fullscreen: f, ctrl+f
+keymap.home: h, r, home
+keymap.pan: p
+keymap.quit: ctrl+w, cmd+w, q
+keymap.save: s, ctrl+s
+keymap.zoom: o
