@@ -25,24 +25,24 @@ except ImportError:
     print("⚠️  Using Agg backend - plots will be saved but not displayed")
 import matplotlib.pyplot as plt
 from typing import List, Tuple, Optional, Dict, Union
-from dataclasses import dataclass
 import math
 from abc import ABC, abstractmethod
 
 
-@dataclass
 class Ray:
     """Represents a light ray with position and direction."""
-    x: float          # x position
-    y: float          # y position  
-    z: float          # z position (along optical axis)
-    dx: float         # x direction cosine
-    dy: float         # y direction cosine
-    dz: float         # z direction cosine
-    wavelength: float = 550e-9  # wavelength in meters
-    intensity: float = 1.0      # relative intensity
     
-    def __post_init__(self):
+    def __init__(self, x: float, y: float, z: float, dx: float, dy: float, dz: float,
+                 wavelength: float = 550e-9, intensity: float = 1.0):
+        self.x = x          # x position
+        self.y = y          # y position  
+        self.z = z          # z position (along optical axis)
+        self.dx = dx        # x direction cosine
+        self.dy = dy        # y direction cosine
+        self.dz = dz        # z direction cosine
+        self.wavelength = wavelength  # wavelength in meters
+        self.intensity = intensity    # relative intensity
+        
         # Normalize direction cosines
         norm = np.sqrt(self.dx**2 + self.dy**2 + self.dz**2)
         if norm > 0:

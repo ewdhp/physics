@@ -24,32 +24,35 @@ except ImportError:
     print("⚠️  Using Agg backend - plots will be saved but not displayed")
 import matplotlib.pyplot as plt
 from typing import Tuple, List, Optional
-from dataclasses import dataclass
 import math
 
 
-@dataclass
 class Ray:
     """Represents a light ray with position, direction, and medium properties."""
-    x: float
-    y: float
-    direction: float  # angle in radians
-    intensity: float = 1.0
-    wavelength: float = 550e-9  # green light in meters
+    
+    def __init__(self, x: float, y: float, direction: float, 
+                 intensity: float = 1.0, wavelength: float = 550e-9):
+        self.x = x
+        self.y = y
+        self.direction = direction  # angle in radians
+        self.intensity = intensity
+        self.wavelength = wavelength  # green light in meters
     
     def get_unit_vector(self) -> Tuple[float, float]:
         """Get the unit direction vector of the ray."""
         return np.cos(self.direction), np.sin(self.direction)
 
 
-@dataclass
 class Interface:
     """Represents an interface between two optical media."""
-    position: float  # y-coordinate of horizontal interface
-    n1: float  # refractive index of medium 1 (above)
-    n2: float  # refractive index of medium 2 (below)
-    name1: str = "Medium 1"
-    name2: str = "Medium 2"
+    
+    def __init__(self, position: float, n1: float, n2: float, 
+                 name1: str = "Medium 1", name2: str = "Medium 2"):
+        self.position = position  # y-coordinate of horizontal interface
+        self.n1 = n1  # refractive index of medium 1 (above)
+        self.n2 = n2  # refractive index of medium 2 (below)
+        self.name1 = name1
+        self.name2 = name2
 
 
 class GeometricOptics:

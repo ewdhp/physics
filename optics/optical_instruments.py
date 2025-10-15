@@ -25,7 +25,6 @@ except ImportError:
     print("⚠️  Using Agg backend - plots will be saved but not displayed")
 import matplotlib.pyplot as plt
 from typing import Tuple, List, Optional, Dict
-from dataclasses import dataclass
 import math
 
 

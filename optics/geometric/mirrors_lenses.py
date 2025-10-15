@@ -25,17 +25,18 @@ except ImportError:
     print("⚠️  Using Agg backend - plots will be saved but not displayed")
 import matplotlib.pyplot as plt
 from typing import Tuple, List, Optional, Union
-from dataclasses import dataclass
 import math
 
 
-@dataclass
 class OpticalElement:
     """Base class for optical elements (mirrors and lenses)."""
-    x_position: float  # Position along optical axis
-    focal_length: float  # Focal length (positive for converging, negative for diverging)
-    aperture: float  # Height of the element
-    name: str = "Optical Element"
+    
+    def __init__(self, x_position: float, focal_length: float, aperture: float, 
+                 name: str = "Optical Element"):
+        self.x_position = x_position  # Position along optical axis
+        self.focal_length = focal_length  # Focal length (positive for converging, negative for diverging)
+        self.aperture = aperture  # Height of the element
+        self.name = name
     
     @property
     def is_converging(self) -> bool:
@@ -48,12 +49,15 @@ class OpticalElement:
         return 1.0 / self.focal_length if self.focal_length != 0 else float('inf')
 
 
-@dataclass
 class Mirror(OpticalElement):
     """Represents a mirror (plane or spherical)."""
-    radius_of_curvature: float = float('inf')  # R = 2f for spherical mirrors
     
-    def __post_init__(self):
+    def __init__(self, x_position: float, focal_length: float, aperture: float, 
+                 name: str = "Optical Element", radius_of_curvature: float = float('inf')):
+        super().__init__(x_position, focal_length, aperture, name)
+        self.radius_of_curvature = radius_of_curvature  # R = 2f for spherical mirrors
+        
+        # Update focal length if radius is specified
         if self.radius_of_curvature != float('inf'):
             # For spherical mirrors: f = R/2
             self.focal_length = self.radius_of_curvature / 2
@@ -69,10 +73,13 @@ class Mirror(OpticalElement):
             return "convex"
 
 
-@dataclass
 class Lens(OpticalElement):
     """Represents a thin lens (converging or diverging)."""
-    refractive_index: float = 1.5  # Typical glass
+    
+    def __init__(self, x_position: float, focal_length: float, aperture: float, 
+                 name: str = "Optical Element", refractive_index: float = 1.5):
+        super().__init__(x_position, focal_length, aperture, name)
+        self.refractive_index = refractive_index  # Typical glass
     
     @property
     def lens_type(self) -> str:
@@ -83,15 +90,17 @@ class Lens(OpticalElement):
             return "diverging"
 
 
-@dataclass
 class LightRay:
     """Represents a light ray for ray tracing."""
-    x: float  # Starting x position
-    y: float  # Starting y position
-    direction_x: float  # Direction cosine in x
-    direction_y: float  # Direction cosine in y
-    intensity: float = 1.0
-    color: str = 'red'
+    
+    def __init__(self, x: float, y: float, direction_x: float, direction_y: float,
+                 intensity: float = 1.0, color: str = 'red'):
+        self.x = x  # Starting x position
+        self.y = y  # Starting y position
+        self.direction_x = direction_x  # Direction cosine in x
+        self.direction_y = direction_y  # Direction cosine in y
+        self.intensity = intensity
+        self.color = color
     
     def propagate(self, distance: float) -> 'LightRay':
         """Propagate ray by a given distance."""
