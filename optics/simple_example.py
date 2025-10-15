@@ -19,7 +19,7 @@ try:
 except ImportError:
     matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from geometric_optics import GeometricOptics, Ray, Interface
+from reflection_refraction import GeometricOptics, Ray, Interface
 
 
 def simple_optics_example():

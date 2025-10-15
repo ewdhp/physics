@@ -70,6 +70,18 @@ Optics is the study of light and its interactions with matter.
    - Brewster's angle calculations
    - Fresnel reflectance calculations
 
+### Global Configuration Files (in `/python/`)
+
+4. **`../backend_config.py`** - Matplotlib backend configuration
+   - Automatic backend detection and setup for all physics modules
+   - Test matplotlib display capabilities
+   - Configure optimal settings for your system
+
+5. **`../matplotlibrc`** - Matplotlib configuration file
+   - Optimized settings for all physics plots
+   - Better default colors and styling
+   - Enhanced readability
+
 ### Quick Start
 
 ```bash
@@ -90,6 +102,10 @@ python optics_calculator.py snell 30 1.0 1.5      # Snell's law
 python optics_calculator.py critical 1.5 1.0       # Critical angle
 python optics_calculator.py brewster 1.0 1.5       # Brewster's angle
 python optics_calculator.py reflectance 45 1.0 1.5 # Reflectance
+
+# Configure and test matplotlib backend (from main python directory)
+cd .. && python backend_config.py                  # Auto-detect best backend
+cd .. && python backend_config.py TkAgg            # Force TkAgg backend
 ```
 
 ### Features
@@ -99,3 +115,5 @@ python optics_calculator.py reflectance 45 1.0 1.5 # Reflectance
 - **Educational Focus**: Clear explanations and step-by-step calculations
 - **Multiple Scenarios**: Normal incidence, oblique incidence, total internal reflection
 - **Polarization Effects**: Demonstrates Brewster's angle and polarization
+- **GUI Support**: Interactive plot windows with TkAgg backend on OpenSUSE
+- **Cross-Platform**: Automatic backend detection and configuration

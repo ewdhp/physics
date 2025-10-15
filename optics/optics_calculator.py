@@ -16,7 +16,7 @@ Usage examples:
 import sys
 import argparse
 import numpy as np
-from geometric_optics import GeometricOptics
+from reflection_refraction import GeometricOptics
 
 
 def calculate_snells_law(angle_deg, n1, n2):
