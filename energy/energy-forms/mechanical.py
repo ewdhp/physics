@@ -6,15 +6,15 @@ Comprehensive implementation of mechanical energy concepts
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import Tuple, List, Optional
-from dataclasses import dataclass
 
-@dataclass
 class ParticleState:
     """Represents the state of a particle with position and velocity"""
-    position: np.ndarray
-    velocity: np.ndarray
-    mass: float
-    time: float = 0.0
+    
+    def __init__(self, position: np.ndarray, velocity: np.ndarray, mass: float, time: float = 0.0):
+        self.position = position
+        self.velocity = velocity
+        self.mass = mass
+        self.time = time
 
 class MechanicalEnergy:
     """Class for calculating and analyzing mechanical energy"""
@@ -337,14 +337,288 @@ def interactive_energy_calculator():
         else:
             print("Invalid choice. Please try again.")
 
+class WorkEnergyPrinciple:
+    """
+    Demonstrates the Work-Energy Principle: W = F·d·cos(θ)
+    Shows how work done by a force changes an object's kinetic energy
+    """
+    
+    def __init__(self):
+        self.energy_calc = MechanicalEnergy()
+    
+    def calculate_work(self, force: float, distance: float, angle_degrees: float) -> dict:
+        """
+        Calculate work done by a force: W = F·d·cos(θ)
+        
+        Args:
+            force: Magnitude of force in Newtons
+            distance: Distance moved in meters  
+            angle_degrees: Angle between force and displacement in degrees
+            
+        Returns:
+            Dictionary with work calculation details
+        """
+        angle_radians = np.radians(angle_degrees)
+        work = force * distance * np.cos(angle_radians)
+        
+        return {
+            'work': work,
+            'force': force,
+            'distance': distance, 
+            'angle_degrees': angle_degrees,
+            'angle_radians': angle_radians,
+            'cos_angle': np.cos(angle_radians),
+            'force_component': force * np.cos(angle_radians)
+        }
+    
+    def work_energy_theorem_demo(self, mass: float, initial_velocity: float, 
+                                force: float, distance: float, angle_degrees: float):
+        """
+        Demonstrate Work-Energy Theorem: W_net = ΔKE = KE_f - KE_i
+        """
+        print(f"\n🔧 Work-Energy Theorem Demonstration")
+        print("=" * 50)
+        
+        # Calculate initial kinetic energy
+        v_i = np.array([initial_velocity, 0])
+        ke_initial = self.energy_calc.kinetic_energy(mass, v_i)
+        
+        # Calculate work done
+        work_result = self.calculate_work(force, distance, angle_degrees)
+        work_done = work_result['work']
+        
+        # Calculate final kinetic energy using work-energy theorem
+        ke_final = ke_initial + work_done
+        
+        # Calculate final velocity
+        v_final = np.sqrt(2 * ke_final / mass) if ke_final >= 0 else 0
+        
+        print(f"📊 Initial Conditions:")
+        print(f"   Mass: {mass:.1f} kg")
+        print(f"   Initial velocity: {initial_velocity:.1f} m/s")
+        print(f"   Initial KE: {ke_initial:.1f} J")
+        
+        print(f"\n🔨 Applied Force:")
+        print(f"   Force magnitude: {force:.1f} N") 
+        print(f"   Distance moved: {distance:.1f} m")
+        print(f"   Angle with displacement: {angle_degrees:.1f}°")
+        print(f"   Force component along motion: {work_result['force_component']:.1f} N")
+        
+        print(f"\n⚡ Work-Energy Analysis:")
+        print(f"   Work done: W = F·d·cos(θ) = {force:.1f} × {distance:.1f} × {work_result['cos_angle']:.3f} = {work_done:.1f} J")
+        print(f"   Final KE: KE_f = KE_i + W = {ke_initial:.1f} + {work_done:.1f} = {ke_final:.1f} J")
+        print(f"   Final velocity: {v_final:.1f} m/s")
+        print(f"   Change in KE: ΔKE = {ke_final - ke_initial:.1f} J")
+        
+        return {
+            'initial_ke': ke_initial,
+            'final_ke': ke_final, 
+            'work_done': work_done,
+            'final_velocity': v_final
+        }
+    
+    def plot_work_vs_angle(self, force: float = 100, distance: float = 10):
+        """
+        Plot how work varies with the angle between force and displacement
+        """
+        angles = np.linspace(0, 180, 181)
+        work_values = []
+        
+        for angle in angles:
+            work = self.calculate_work(force, distance, angle)['work']
+            work_values.append(work)
+        
+        plt.figure(figsize=(12, 8))
+        
+        # Main plot
+        plt.subplot(2, 2, 1)
+        plt.plot(angles, work_values, 'b-', linewidth=2, label=f'F = {force} N, d = {distance} m')
+        plt.axhline(y=0, color='k', linestyle='--', alpha=0.5)
+        plt.xlabel('Angle θ (degrees)')
+        plt.ylabel('Work Done (J)')
+        plt.title('Work vs Angle: W = F·d·cos(θ)')
+        plt.grid(True, alpha=0.3)
+        plt.legend()
+        
+        # Highlight key angles
+        key_angles = [0, 90, 180]
+        key_works = [self.calculate_work(force, distance, angle)['work'] for angle in key_angles]
+        plt.scatter(key_angles, key_works, color='red', s=100, zorder=5)
+        
+        for i, (angle, work) in enumerate(zip(key_angles, key_works)):
+            plt.annotate(f'θ={angle}°\nW={work:.0f}J', 
+                        xy=(angle, work), xytext=(10, 10),
+                        textcoords='offset points', ha='left',
+                        bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.7))
+        
+        # Force component plot
+        plt.subplot(2, 2, 2)
+        force_components = [force * np.cos(np.radians(angle)) for angle in angles]
+        plt.plot(angles, force_components, 'r-', linewidth=2, label='F·cos(θ)')
+        plt.axhline(y=0, color='k', linestyle='--', alpha=0.5)
+        plt.xlabel('Angle θ (degrees)')
+        plt.ylabel('Force Component (N)')
+        plt.title('Force Component Along Motion')
+        plt.grid(True, alpha=0.3)
+        plt.legend()
+        
+        # Vector diagrams for key angles
+        for i, angle in enumerate([0, 60, 90, 120]):
+            plt.subplot(2, 4, 5 + i)
+            
+            # Draw displacement vector
+            plt.arrow(0, 0, 1, 0, head_width=0.05, head_length=0.05, fc='blue', ec='blue', label='d')
+            
+            # Draw force vector
+            angle_rad = np.radians(angle)
+            fx = np.cos(angle_rad)
+            fy = np.sin(angle_rad)
+            plt.arrow(0, 0, fx, fy, head_width=0.05, head_length=0.05, fc='red', ec='red', label='F')
+            
+            # Draw force component
+            plt.arrow(0, 0, fx, 0, head_width=0.03, head_length=0.03, fc='green', ec='green', 
+                     linestyle='--', alpha=0.7, label='F·cos(θ)')
+            
+            plt.xlim(-0.2, 1.2)
+            plt.ylim(-0.2, 1.2)
+            plt.grid(True, alpha=0.3)
+            plt.title(f'θ = {angle}°')
+            plt.axis('equal')
+            
+            if i == 0:
+                plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+        
+        plt.tight_layout()
+        plt.show()
+    
+    def interactive_work_calculator(self):
+        """
+        Interactive calculator for work-energy problems
+        """
+        print(f"\n🧮 Interactive Work-Energy Calculator")
+        print("=" * 40)
+        
+        while True:
+            print(f"\nChoose calculation type:")
+            print("1. Calculate work done by a force")
+            print("2. Work-Energy theorem demonstration")
+            print("3. Plot work vs angle")
+            print("4. Return to main menu")
+            
+            choice = input("Enter your choice (1-4): ")
+            
+            if choice == '1':
+                try:
+                    force = float(input("Enter force magnitude (N): "))
+                    distance = float(input("Enter distance moved (m): "))
+                    angle = float(input("Enter angle between force and displacement (degrees): "))
+                    
+                    result = self.calculate_work(force, distance, angle)
+                    
+                    print(f"\n📊 Work Calculation Results:")
+                    print(f"   Force: {result['force']:.1f} N")
+                    print(f"   Distance: {result['distance']:.1f} m") 
+                    print(f"   Angle: {result['angle_degrees']:.1f}° = {result['angle_radians']:.3f} rad")
+                    print(f"   cos({result['angle_degrees']:.1f}°) = {result['cos_angle']:.3f}")
+                    print(f"   Force component along motion: {result['force_component']:.1f} N")
+                    print(f"   Work done: W = F·d·cos(θ) = {result['work']:.1f} J")
+                    
+                    if result['work'] > 0:
+                        print(f"   ✅ Positive work: Force adds energy to the object")
+                    elif result['work'] < 0:
+                        print(f"   ❌ Negative work: Force removes energy from the object")
+                    else:
+                        print(f"   ⚪ Zero work: Force perpendicular to motion")
+                        
+                except ValueError:
+                    print("Please enter valid numbers.")
+            
+            elif choice == '2':
+                try:
+                    mass = float(input("Enter object mass (kg): "))
+                    v_initial = float(input("Enter initial velocity (m/s): "))
+                    force = float(input("Enter applied force (N): "))
+                    distance = float(input("Enter distance moved (m): "))
+                    angle = float(input("Enter angle between force and displacement (degrees): "))
+                    
+                    self.work_energy_theorem_demo(mass, v_initial, force, distance, angle)
+                    
+                except ValueError:
+                    print("Please enter valid numbers.")
+            
+            elif choice == '3':
+                try:
+                    force = float(input("Enter force magnitude (N) [default: 100]: ") or "100")
+                    distance = float(input("Enter distance (m) [default: 10]: ") or "10")
+                    print("Generating work vs angle plot...")
+                    self.plot_work_vs_angle(force, distance)
+                except ValueError:
+                    print("Please enter valid numbers.")
+            
+            elif choice == '4':
+                break
+            
+            else:
+                print("Invalid choice. Please try again.")
+
+def demonstrate_work_energy_principle():
+    """
+    Comprehensive demonstration of the work-energy principle
+    """
+    work_demo = WorkEnergyPrinciple()
+    
+    print(f"\n🔬 Work-Energy Principle Demonstration")
+    print("=" * 50)
+    print("The Work-Energy Principle states:")
+    print("W_net = ΔKE = KE_final - KE_initial")
+    print("Where W = F·d·cos(θ) for a constant force")
+    
+    # Example 1: Force in direction of motion
+    print(f"\n📖 Example 1: Force in Direction of Motion")
+    work_demo.work_energy_theorem_demo(mass=5.0, initial_velocity=2.0, 
+                                     force=20.0, distance=3.0, angle_degrees=0.0)
+    
+    # Example 2: Force at an angle
+    print(f"\n📖 Example 2: Force at an Angle")
+    work_demo.work_energy_theorem_demo(mass=2.0, initial_velocity=5.0,
+                                     force=15.0, distance=4.0, angle_degrees=60.0)
+    
+    # Example 3: Force opposing motion
+    print(f"\n📖 Example 3: Force Opposing Motion (Friction)")
+    work_demo.work_energy_theorem_demo(mass=3.0, initial_velocity=8.0,
+                                     force=-10.0, distance=2.0, angle_degrees=180.0)
+    
+    # Generate visualization
+    print(f"\n📊 Generating Work vs Angle Visualization...")
+    work_demo.plot_work_vs_angle(force=50, distance=5)
+
 if __name__ == "__main__":
-    print("Mechanical Energy Analysis")
-    print("=" * 30)
+    print("🔧 Mechanical Energy & Work-Energy Principle Analysis")
+    print("=" * 60)
     
-    # Run demonstrations
-    demonstrate_mechanical_energy()
+    print("\nSelect demonstration:")
+    print("1. Mechanical Energy Analysis")
+    print("2. Work-Energy Principle") 
+    print("3. Interactive Calculators")
     
-    # Interactive calculator
-    use_calculator = input("\nWould you like to use the interactive calculator? (y/n): ").lower()
-    if use_calculator == 'y':
-        interactive_energy_calculator()
+    choice = input("Enter your choice (1-3): ")
+    
+    if choice == '1':
+        demonstrate_mechanical_energy()
+    elif choice == '2':  
+        demonstrate_work_energy_principle()
+    elif choice == '3':
+        print("\nChoose calculator:")
+        print("1. Mechanical Energy Calculator")
+        print("2. Work-Energy Calculator")
+        calc_choice = input("Enter choice (1-2): ")
+        
+        if calc_choice == '1':
+            interactive_energy_calculator()
+        elif calc_choice == '2':
+            work_demo = WorkEnergyPrinciple()
+            work_demo.interactive_work_calculator()
+    else:
+        # Run both demonstrations
+        demonstrate_mechanical_energy()
+        demonstrate_work_energy_principle()
