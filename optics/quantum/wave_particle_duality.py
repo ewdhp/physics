@@ -135,38 +135,13 @@ def plot_wave_particle_duality():
     """
     duality = WaveParticleDuality()
     
-    # Set up the figure with 2 rows and 4 columns 
+    # Set up the figure with 2 rows and 4 columns (7 plots total)
     fig = plt.figure(figsize=(20, 12))
     
     # WAVE NATURE DEMONSTRATIONS
     
-    # Plot 1: Wave Interference
+    # Plot 1: Single-Slit Diffraction
     ax1 = plt.subplot(2, 4, 1)
-    x = np.linspace(0, 4*np.pi, 1000)
-    wavelength = 1.0
-    
-    # Individual waves
-    wave1 = np.sin(2*np.pi*x/wavelength)
-    wave2 = np.sin(2*np.pi*x/wavelength + np.pi/4)  # Phase shifted
-    
-    # Interference patterns
-    constructive = duality.wave_interference(x, wavelength, 0)  # In phase
-    destructive = duality.wave_interference(x, wavelength, np.pi)  # Out of phase
-    
-    ax1.plot(x, wave1, 'b--', alpha=0.6, label='Wave 1')
-    ax1.plot(x, wave2, 'r--', alpha=0.6, label='Wave 2')
-    ax1.plot(x, constructive/2, 'g-', linewidth=3, label='Constructive')
-    ax1.plot(x, destructive/2, 'orange', linewidth=3, label='Destructive')
-    
-    ax1.set_xlabel('Position (wavelengths)', fontsize=11)
-    ax1.set_ylabel('Amplitude', fontsize=11)
-    ax1.set_title('1. Wave Interference\nConstructive & Destructive', fontsize=11, weight='bold')
-    ax1.grid(True, alpha=0.3)
-    ax1.legend()
-    ax1.set_ylim(-2.5, 2.5)
-    
-    # Plot 2: Single-Slit Diffraction
-    ax2 = plt.subplot(2, 4, 2)
     theta = np.linspace(-0.05, 0.05, 1000)  # Small angles
     wavelength_vis = 550e-9  # Green light
     slit_widths = [1e-6, 2e-6, 5e-6]  # Different slit widths
@@ -174,18 +149,18 @@ def plot_wave_particle_duality():
     
     for slit_width, color in zip(slit_widths, colors):
         intensity = duality.diffraction_pattern(theta, wavelength_vis, slit_width)
-        ax2.plot(np.degrees(theta), intensity, color=color, linewidth=2.5,
+        ax1.plot(np.degrees(theta), intensity, color=color, linewidth=2.5,
                 label=f'a = {slit_width*1e6:.0f} μm')
     
-    ax2.set_xlabel('Diffraction Angle (degrees)', fontsize=11)
-    ax2.set_ylabel('Relative Intensity', fontsize=11)
-    ax2.set_title('2. Single-Slit Diffraction\nWave Bending Pattern', fontsize=11, weight='bold')
-    ax2.grid(True, alpha=0.3)
-    ax2.legend()
-    ax2.set_ylim(0, 1.1)
+    ax1.set_xlabel('Diffraction Angle (degrees)', fontsize=11)
+    ax1.set_ylabel('Relative Intensity', fontsize=11)
+    ax1.set_title('1. Single-Slit Diffraction\nWave Bending Pattern', fontsize=11, weight='bold')
+    ax1.grid(True, alpha=0.3)
+    ax1.legend()
+    ax1.set_ylim(0, 1.1)
     
-    # Plot 3: Wave Reflection & Transmission
-    ax3 = plt.subplot(2, 4, 3)
+    # Plot 2: Wave Reflection & Transmission
+    ax2 = plt.subplot(2, 4, 2)
     angles = np.linspace(0, 90, 91)
     n1, n2 = 1.0, 1.5  # Air to glass
     
@@ -200,19 +175,19 @@ def plot_wave_particle_duality():
     # Transmission coefficient  
     Ts = 1 - Rs
     
-    ax3.plot(angles, Rs, 'r-', linewidth=3, label='Reflection (R)')
-    ax3.plot(angles, Ts, 'b-', linewidth=3, label='Transmission (T)')
-    ax3.plot(angles, Rs + Ts, 'k--', alpha=0.7, label='R + T = 1')
+    ax2.plot(angles, Rs, 'r-', linewidth=3, label='Reflection (R)')
+    ax2.plot(angles, Ts, 'b-', linewidth=3, label='Transmission (T)')
+    ax2.plot(angles, Rs + Ts, 'k--', alpha=0.7, label='R + T = 1')
     
-    ax3.set_xlabel('Incident Angle (degrees)', fontsize=11)
-    ax3.set_ylabel('Fraction', fontsize=11)
-    ax3.set_title('3. Wave Reflection/Transmission\nFresnel Equations', fontsize=11, weight='bold')
-    ax3.grid(True, alpha=0.3)
-    ax3.legend()
-    ax3.set_ylim(0, 1.1)
+    ax2.set_xlabel('Incident Angle (degrees)', fontsize=11)
+    ax2.set_ylabel('Fraction', fontsize=11)
+    ax2.set_title('2. Wave Reflection/Transmission\nFresnel Equations', fontsize=11, weight='bold')
+    ax2.grid(True, alpha=0.3)
+    ax2.legend()
+    ax2.set_ylim(0, 1.1)
     
-    # Plot 4: Wave Dispersion
-    ax4 = plt.subplot(2, 4, 4)
+    # Plot 3: Wave Dispersion
+    ax3 = plt.subplot(2, 4, 3)
     wavelengths = np.linspace(400, 700, 100)  # Visible spectrum (nm)
     
     # Sellmeier equation for glass dispersion (simplified)
@@ -222,24 +197,24 @@ def plot_wave_particle_duality():
     colors_spectrum = plt.cm.plasma((wavelengths - 400) / 300)
     
     for i in range(len(wavelengths)-1):
-        ax4.plot(wavelengths[i:i+2], n_glass[i:i+2], color=colors_spectrum[i], linewidth=3)
+        ax3.plot(wavelengths[i:i+2], n_glass[i:i+2], color=colors_spectrum[i], linewidth=3)
     
-    ax4.set_xlabel('Wavelength (nm)', fontsize=11)
-    ax4.set_ylabel('Refractive Index', fontsize=11)
-    ax4.set_title('4. Wave Dispersion\nWavelength-Dependent Refraction', fontsize=11, weight='bold')
-    ax4.grid(True, alpha=0.3)
+    ax3.set_xlabel('Wavelength (nm)', fontsize=11)
+    ax3.set_ylabel('Refractive Index', fontsize=11)
+    ax3.set_title('3. Wave Dispersion\nWavelength-Dependent Refraction', fontsize=11, weight='bold')
+    ax3.grid(True, alpha=0.3)
     
     # Add spectrum labels
     spectrum_regions = {'Violet': 420, 'Blue': 470, 'Green': 530, 'Yellow': 580, 'Red': 650}
     for color_name, wl in spectrum_regions.items():
         idx = np.argmin(np.abs(wavelengths - wl))
-        ax4.annotate(color_name, (wl, n_glass[idx]), 
+        ax3.annotate(color_name, (wl, n_glass[idx]), 
                     xytext=(5, 5), textcoords='offset points', fontsize=9)
     
     # PARTICLE NATURE DEMONSTRATIONS
     
-    # Plot 5: Photoelectric Effect
-    ax5 = plt.subplot(2, 4, 5)
+    # Plot 4: Photoelectric Effect
+    ax4 = plt.subplot(2, 4, 4)
     frequencies = np.linspace(5e14, 15e14, 100)  # Hz
     work_functions = [2.1, 4.3, 5.1]  # eV for different metals
     metals = ['Cesium', 'Zinc', 'Platinum']
@@ -247,50 +222,50 @@ def plot_wave_particle_duality():
     
     for wf, metal, color in zip(work_functions, metals, colors_metals):
         ke, current = duality.photoelectric_effect(frequencies, wf)
-        ax5.plot(frequencies/1e14, ke, color=color, linewidth=3, label=f'{metal} (φ={wf}eV)')
+        ax4.plot(frequencies/1e14, ke, color=color, linewidth=3, label=f'{metal} (φ={wf}eV)')
     
-    ax5.axhline(y=0, color='k', linestyle='--', alpha=0.5)
-    ax5.set_xlabel('Frequency (×10¹⁴ Hz)', fontsize=11)
-    ax5.set_ylabel('Kinetic Energy (eV)', fontsize=11)
-    ax5.set_title('5. Photoelectric Effect\nPhoton Energy Threshold', fontsize=11, weight='bold')
-    ax5.grid(True, alpha=0.3)
-    ax5.legend()
+    ax4.axhline(y=0, color='k', linestyle='--', alpha=0.5)
+    ax4.set_xlabel('Frequency (×10¹⁴ Hz)', fontsize=11)
+    ax4.set_ylabel('Kinetic Energy (eV)', fontsize=11)
+    ax4.set_title('4. Photoelectric Effect\nPhoton Energy Threshold', fontsize=11, weight='bold')
+    ax4.grid(True, alpha=0.3)
+    ax4.legend()
     
-    # Plot 6: Photon Energy Distribution
-    ax6 = plt.subplot(2, 4, 6)
+    # Plot 5: Photon Energy Distribution
+    ax5 = plt.subplot(2, 4, 5)
     wavelengths_nm = np.linspace(200, 800, 100)
     wavelengths_m = wavelengths_nm * 1e-9
     photon_energies = duality.photon_energy(wavelengths_m)
     
     # Create color map for energy levels
-    ax6.plot(wavelengths_nm, photon_energies, 'purple', linewidth=4, label='E = hf = hc/λ')
-    ax6.fill_between(wavelengths_nm, 0, photon_energies, alpha=0.3, color='purple')
+    ax5.plot(wavelengths_nm, photon_energies, 'purple', linewidth=4, label='E = hf = hc/λ')
+    ax5.fill_between(wavelengths_nm, 0, photon_energies, alpha=0.3, color='purple')
     
     # Mark important energy thresholds
     energy_thresholds = {'UV-C': 6.2, 'UV-B': 4.4, 'UV-A': 3.1, 'Visible': 1.8, 'IR': 1.2}
     for region, energy in energy_thresholds.items():
         wl_threshold = 1240 / energy  # Wavelength in nm for given energy in eV
         if 200 <= wl_threshold <= 800:
-            ax6.axvline(x=wl_threshold, color='red', linestyle=':', alpha=0.8)
-            ax6.text(wl_threshold, energy + 0.2, region, rotation=90, fontsize=9)
+            ax5.axvline(x=wl_threshold, color='red', linestyle=':', alpha=0.8)
+            ax5.text(wl_threshold, energy + 0.2, region, rotation=90, fontsize=9)
     
-    ax6.set_xlabel('Wavelength (nm)', fontsize=11)
-    ax6.set_ylabel('Photon Energy (eV)', fontsize=11)
-    ax6.set_title('6. Photon Energy Distribution\nDiscrete Energy Packets', fontsize=11, weight='bold')
-    ax6.grid(True, alpha=0.3)
-    ax6.legend()
+    ax5.set_xlabel('Wavelength (nm)', fontsize=11)
+    ax5.set_ylabel('Photon Energy (eV)', fontsize=11)
+    ax5.set_title('5. Photon Energy Distribution\nDiscrete Energy Packets', fontsize=11, weight='bold')
+    ax5.grid(True, alpha=0.3)
+    ax5.legend()
     
-    # Plot 7: Compton Scattering
-    ax7 = plt.subplot(2, 4, 7)
+    # Plot 6: Compton Scattering
+    ax6 = plt.subplot(2, 4, 6)
     scattering_angles = np.linspace(0, np.pi, 100)
     initial_wavelength = 0.71e-12  # X-ray wavelength (m)
     
     final_wavelengths = duality.compton_scattering(scattering_angles, initial_wavelength)
     wavelength_shift = (final_wavelengths - initial_wavelength) * 1e12  # in pm
     
-    ax7.plot(np.degrees(scattering_angles), wavelength_shift, 'red', linewidth=3, 
+    ax6.plot(np.degrees(scattering_angles), wavelength_shift, 'red', linewidth=3, 
             label='Δλ = λc(1 - cos θ)')
-    ax7.axhline(y=0, color='k', linestyle='--', alpha=0.5)
+    ax6.axhline(y=0, color='k', linestyle='--', alpha=0.5)
     
     # Mark key angles
     key_angles = [0, 90, 180]
@@ -298,18 +273,18 @@ def plot_wave_particle_duality():
         angle_rad = np.radians(angle)
         shift = (duality.compton_scattering(np.array([angle_rad]), initial_wavelength)[0] - 
                 initial_wavelength) * 1e12
-        ax7.plot(angle, shift, 'o', markersize=8, color='blue')
-        ax7.annotate(f'{angle}°\n{shift:.2f}pm', (angle, shift), 
+        ax6.plot(angle, shift, 'o', markersize=8, color='blue')
+        ax6.annotate(f'{angle}°\n{shift:.2f}pm', (angle, shift), 
                     xytext=(10, 10), textcoords='offset points', fontsize=9)
     
-    ax7.set_xlabel('Scattering Angle (degrees)', fontsize=11)
-    ax7.set_ylabel('Wavelength Shift (pm)', fontsize=11)
-    ax7.set_title('7. Compton Scattering\nPhoton-Electron Collision', fontsize=11, weight='bold')
-    ax7.grid(True, alpha=0.3)
-    ax7.legend()
+    ax6.set_xlabel('Scattering Angle (degrees)', fontsize=11)
+    ax6.set_ylabel('Wavelength Shift (pm)', fontsize=11)
+    ax6.set_title('6. Compton Scattering\nPhoton-Electron Collision', fontsize=11, weight='bold')
+    ax6.grid(True, alpha=0.3)
+    ax6.legend()
     
-    # Plot 8: Wave-Particle Duality Summary
-    ax8 = plt.subplot(2, 4, 8)
+    # Plot 7: Wave-Particle Duality Summary
+    ax7 = plt.subplot(2, 4, 7)
     
     # Create comparison of wave vs particle characteristics
     phenomena = ['Interference', 'Diffraction', 'Photoelectric', 'Compton']
@@ -319,9 +294,9 @@ def plot_wave_particle_duality():
     x_pos = np.arange(len(phenomena))
     width = 0.35
     
-    bars1 = ax8.bar(x_pos - width/2, wave_strength, width, label='Wave Nature', 
+    bars1 = ax7.bar(x_pos - width/2, wave_strength, width, label='Wave Nature', 
                    color='blue', alpha=0.7)
-    bars2 = ax8.bar(x_pos + width/2, particle_strength, width, label='Particle Nature', 
+    bars2 = ax7.bar(x_pos + width/2, particle_strength, width, label='Particle Nature', 
                    color='red', alpha=0.7)
     
     # Add value labels on bars
@@ -329,17 +304,17 @@ def plot_wave_particle_duality():
         for bar in bars:
             height = bar.get_height()
             if height > 0:
-                ax8.text(bar.get_x() + bar.get_width()/2., height + 2,
+                ax7.text(bar.get_x() + bar.get_width()/2., height + 2,
                         f'{height:.0f}%', ha='center', va='bottom', fontsize=9)
     
-    ax8.set_xlabel('Optical Phenomena', fontsize=11)
-    ax8.set_ylabel('Character Strength (%)', fontsize=11)
-    ax8.set_title('8. Wave-Particle Duality\nComplementarity Principle', fontsize=11, weight='bold')
-    ax8.set_xticks(x_pos)
-    ax8.set_xticklabels(phenomena, rotation=45, ha='right')
-    ax8.grid(True, alpha=0.3, axis='y')
-    ax8.legend()
-    ax8.set_ylim(0, 110)
+    ax7.set_xlabel('Optical Phenomena', fontsize=11)
+    ax7.set_ylabel('Character Strength (%)', fontsize=11)
+    ax7.set_title('7. Wave-Particle Duality\nComplementarity Principle', fontsize=11, weight='bold')
+    ax7.set_xticks(x_pos)
+    ax7.set_xticklabels(phenomena, rotation=45, ha='right')
+    ax7.grid(True, alpha=0.3, axis='y')
+    ax7.legend()
+    ax7.set_ylim(0, 110)
     
     plt.tight_layout(pad=2.5, h_pad=4.0, w_pad=2.0)
     plt.show()
@@ -357,18 +332,17 @@ def demonstrate_wave_particle_duality():
     
     print("📊 WAVE NATURE EVIDENCE:")
     print("-" * 30)
-    print("1. 🌊 Interference: Waves add constructively/destructively")
-    print("2. 🔄 Diffraction: Waves bend around obstacles")  
-    print("3. 🪞 Reflection: Wave amplitude reflection at interfaces")
-    print("4. 🌈 Dispersion: Wavelength-dependent refraction")
+    print("1. 🔄 Diffraction: Waves bend around obstacles")  
+    print("2. 🪞 Reflection: Wave amplitude reflection at interfaces")
+    print("3. 🌈 Dispersion: Wavelength-dependent refraction")
     print()
     
     print("⚛️  PARTICLE NATURE EVIDENCE:")
     print("-" * 30)
-    print("5. ⚡ Photoelectric Effect: Energy threshold behavior")
-    print("6. 📦 Photon Packets: Discrete energy quanta E = hf")
-    print("7. 💥 Compton Scattering: Photon-electron collisions")
-    print("8. 🎯 Complementarity: Wave OR particle, not both simultaneously")
+    print("4. ⚡ Photoelectric Effect: Energy threshold behavior")
+    print("5. 📦 Photon Packets: Discrete energy quanta E = hf")
+    print("6. 💥 Compton Scattering: Photon-electron collisions")
+    print("7. 🎯 Complementarity: Wave OR particle, not both simultaneously")
     print()
     
     duality = WaveParticleDuality()
@@ -425,7 +399,7 @@ def demonstrate_wave_particle_duality():
 if __name__ == "__main__":
     print("🌟 Welcome to Wave-Particle Duality Explorer! 🌟")
     print("This script demonstrates the fundamental quantum nature of light:")
-    print("• Wave properties: Interference, diffraction, reflection, dispersion")
+    print("• Wave properties: Diffraction, reflection, dispersion")
     print("• Particle properties: Photoelectric effect, photons, Compton scattering")
     
     print("\nSelect demonstration:")
