@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Python script demonstrates the fundamental quantum mechanical principle that light exhibits both wave and particle properties, depending on how it's observed and measured. This concept revolutionized physics in the early 20th century and laid the foundation for quantum mechanics.
+This Python script demonstrates the fundamental quantum mechanical principle that light exhibits both wave and particle properties, depending on how it's observed and measured.
 
 ## Key Concepts Demonstrated
 
