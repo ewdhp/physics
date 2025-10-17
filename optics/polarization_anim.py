@@ -1,15 +1,63 @@
 """
-How it works
+COMPLETE POLARIZATION EXPLANATION
+==================================
 
-The blue vector = the rotating electric field of incoming light.
+## What is Polarization?
 
-The red vector = the transmitted component through the polarizer.
+Light is an electromagnetic wave with an oscillating electric field (E-field). 
+Polarization describes the direction and pattern of this oscillation.
 
-The dashed black line = the polarizer’s axis.
+### Types of Polarization:
+1. Unpolarized Light: E-field oscillates randomly in all directions perpendicular to travel
+2. Linear Polarization: E-field oscillates in one fixed plane
+3. Circular/Elliptical Polarization: E-field traces circular or elliptical patterns
 
-The intensity text shows how much light passes (I = I₀cos²θ).
+## Malus's Law (The Key Physics)
 
-When θ → 90°, the red vector disappears — total blocking.
+When polarized light passes through a polarizer:
+    I = I₀ cos²(θ)
+
+Where:
+  - I₀ = incident light intensity
+  - θ = angle between incident E-field and polarizer axis
+  - I = transmitted intensity
+
+### What This Means:
+  - θ = 0°: Light aligned with polarizer → full transmission (cos²(0°) = 1)
+  - θ = 45°: Light at 45° angle → 50% transmission (cos²(45°) ≈ 0.5)
+  - θ = 90°: Light perpendicular to polarizer → complete blocking (cos²(90°) = 0)
+
+## Physical Intuition
+
+Think of it like:
+  - Polarizer = a narrow gate only allowing vertical bars through
+  - Light wave = bars at various angles
+  - When bars align with gate → passes through
+  - When bars perpendicular to gate → blocked
+
+The red vector's length represents how much light actually gets through at each angle!
+
+## HOW THIS SCRIPT WORKS
+
+Frame-by-frame animation showing:
+
+1. BLUE VECTOR (Incident E-field):
+   - Rotates from 0° to 180°
+   - Represents unpolarized light arriving at the polarizer
+   - Direction: sin(θ) in x, cos(θ) in y
+
+2. DASHED BLACK LINE (Polarizer Axis):
+   - Fixed along x-axis (horizontal)
+   - Only allows light polarized along this direction through
+
+3. RED VECTOR (Transmitted E-field):
+   - The component of blue vector along the polarizer axis
+   - Calculated by projecting E-field onto x-axis
+   - Disappears as θ → 90°
+
+4. INTENSITY TEXT:
+   - Shows I = I₀cos²(θ)
+   - Decreases as angle increases
 """
 import numpy as np
 import matplotlib.pyplot as plt
