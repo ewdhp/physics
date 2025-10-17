@@ -58,6 +58,34 @@ Frame-by-frame animation showing:
 4. INTENSITY TEXT:
    - Shows I = I₀cos²(θ)
    - Decreases as angle increases
+
+## HOW TO FIND EACH VARIABLE
+
+### I₀ (Incident Light Intensity)
+Definition: The intensity of light BEFORE it hits the polarizer.
+
+How to find it:
+  - Experimentally: Measure light intensity with no polarizer using a light meter/photodiode
+  - In this script: Set as I0 = 1.0 (normalized to 1 for simplicity)
+  - Formula: I₀ = P / A (Power / cross-sectional area)
+
+### θ (Angle Between E-field and Polarizer Axis)
+Definition: The angle between the oscillation direction of the incident E-field 
+            and the polarizer's transmission axis.
+
+How to find it:
+  - In this script: Rotates from 0° to 180° automatically
+  - Experimentally: Rotate the polarizer and measure the angle on its scale
+  - Physically: Use vector dot product if you know both field directions
+
+### I (Transmitted Light Intensity)
+Definition: The intensity of light AFTER it passes through the polarizer.
+
+How to find it:
+  - Experimentally: Measure with a light meter placed after the polarizer
+  - From Malus's Law: I = I₀ cos²(θ)
+  - In this script: Calculated and displayed in real-time
+  - Visually: The RED VECTOR length represents this transmitted intensity!
 """
 import numpy as np
 import matplotlib.pyplot as plt
