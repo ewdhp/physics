@@ -1,7 +1,5 @@
 # Classical Physics
 
-A comprehensive collection of classical physics topics, implementations, and educational resources.
-
 1. Mechanics (Start Here)
 Begin with kinematics and dynamics: motion, Newton’s laws, energy, and momentum.
 Progress to rotational motion and oscillations.
