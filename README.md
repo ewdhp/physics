@@ -2,8 +2,6 @@
 
 A comprehensive collection of classical physics topics, implementations, and educational resources.
 
-To refresh all physics topics in your project, here’s a suggested learning path based on the structure and content of the README files in each directory:
-
 1. Mechanics (Start Here)
 Begin with kinematics and dynamics: motion, Newton’s laws, energy, and momentum.
 Progress to rotational motion and oscillations.
